@@ -43,29 +43,43 @@ class App extends React.Component {
         'm': { id: 'm', title: 'Thirteenth card', content: 'lorem ipsum' },
       },
     },
-    newRandomCard: function() {
+    newRandomCard: (keyId) => {
       const id = Math.random().toString(36).substring(2, 4)
         + Math.random().toString(36).substring(2, 4);
+
         this.setState({
             id,
             title: `Random Card ${id}`,
             content: 'lorem ipsum',
             }
-        )
+        ) 
+        console.log(this.state.store.allCards)
+       /*  this.setState({
+          store: {
+              // Order is important!
+              ...this.state.store,
+              allCards: {
+              ...this.state.store.allCards,
+              id: id,
+              title: `Random Card ${id}`,
+              content: 'lorem ipsum',
+              }
+          }
+      }); */
+      console.log(this.state)
       }
     }
   
 
-  /* console.log(customLis)  */
+  
   render() {
-    console.log(this.state.store.allCards);
     const customLis = this.state.store.lists.map((list) => {
       const cards = list.cardIds.map((cardId) => {
         return this.state.store.allCards[cardId]
       })
       return <List key={list.id} header={list.header} cards={cards} handler={this.state.newRandomCard}/>
     });
-    //const customLis = this.
+  
   return (
     <main className='App'>
       <header className="App-header">

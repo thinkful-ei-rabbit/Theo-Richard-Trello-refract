@@ -13,7 +13,7 @@ function List(prop) {
       </header>
       <div className="List-cards">
       {customLis}
-      <button onClick={prop.handler()}type="button" className="List-add-button">
+      <button onClick={prop.handler(prop.keyId)} type="button" className="List-add-button">
               + Add Random Card
             </button>
       </div>
