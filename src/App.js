@@ -2,6 +2,10 @@ import React from 'react';
 import List from './List'
 import './App.css'
 
+const deleter = (obj, keyToOmit) => {
+  let {[keyToOmit]: _, ...rest} = obj;
+  return rest;
+}
 
 const newRandomCard = ()=> {
 
@@ -55,32 +59,64 @@ class App extends React.Component {
         'm': { id: 'm', title: 'Thirteenth card', content: 'lorem ipsum' },
       },
     },
+     
+}
 
+    
+   /*      this.setState({
+          store:{
+            allCards:{
+              del
+            }
+          }
+       }) */   
+
+    handleDelete = (keyToOmit) => {
+      const newCards = deleter(this.state.store.allCards, keyToOmit);
+      const newList = this.state.store.lists.map(list => ({
+        ...list,
+        cardIds: list.cardIds.filter(id => id !==  keyToOmit)
+      }));
+
+    
+      this.setState({
+        store:{
+          lists: newList,
+          allCards: newCards,
+        }
+      }) 
     }
+
+    
+    
   
-    handleAddClick = (listItem) =>{
+    handleAddClick = (id) => {
 
-      const newCard= newRandomCard()
+      const newCard = newRandomCard()
 
-      const newList=this.state.store.lists.map(list=> {
-        if (list.id=== listItem){
+      const newList = this.state.store.lists.map(list=> {
+        if (list.id === id) {
           return {
             ...list,
             cardIds:[...list.cardIds, newCard.id]
           };
         }
-        return list 
+        return list;
       })
       this.setState({
         store:{
           lists: newList,
-          allCard:{
+          allCards:{
             ...this.state.store.allCards,
             [newCard.id]: newCard
           }
         }
      })
+     console.log('hello')
     }
+  
+
+   
 
   
   /* console.log(customLis)  */
@@ -89,8 +125,9 @@ class App extends React.Component {
       const cards = list.cardIds.map((cardId) => {
         return this.state.store.allCards[cardId]
       })
-      return <List key={list.id} id={list.id} header={list.header} cards={cards} onAdd={this.handleAddClick}/>
+      return <List key={list.id} id={list.id} header={list.header} cards={cards} onAdd={this.handleAddClick} onDelete={this.handleDelete}/>
     });
+    
     //const customLis = this.
   return (
     <main className='App'>

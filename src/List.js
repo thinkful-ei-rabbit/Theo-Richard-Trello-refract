@@ -4,7 +4,7 @@ import './List.css'
 
 function List(prop) {
    const customLis = prop.cards.map((card) => {
-    return <Card key={card.id} id={card.id} title={card.title} content={card.content}/>
+    return <Card key={card.id} id={card.id} title={card.title} content={card.content} onDelete={prop.onDelete} cards={prop.cards}/>
   });
   return (
     <section className="List">
