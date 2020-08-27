@@ -6,6 +6,7 @@ function List(prop) {
    const customLis = prop.cards.map(function(card) {
     return <Card key={card.id} title={card.title} content={card.content}/>
   });
+  console.log(prop.keyId)
   return (
     <section className="List">
       <header className="List-header">
@@ -13,7 +14,7 @@ function List(prop) {
       </header>
       <div className="List-cards">
       {customLis}
-      <button onClick={prop.handler(prop.keyId)} type="button" className="List-add-button">
+      <button onClick={() => prop.handler(prop.key)} type="button" className="List-add-button">
               + Add Random Card
             </button>
       </div>
