@@ -2,6 +2,18 @@ import React from 'react';
 import List from './List'
 import './App.css'
 
+
+const newRandomCard = ()=> {
+
+  const id = Math.random().toString(36).substring(2, 4)
+    + Math.random().toString(36).substring(2, 4);
+    return {
+        id,
+        title: `Random Card ${id}`,
+        content: 'lorem ipsum',
+        }
+       
+  }
 class App extends React.Component {
   state = {
   store: {
@@ -43,27 +55,41 @@ class App extends React.Component {
         'm': { id: 'm', title: 'Thirteenth card', content: 'lorem ipsum' },
       },
     },
-    newRandomCard: function() {
-      const id = Math.random().toString(36).substring(2, 4)
-        + Math.random().toString(36).substring(2, 4);
-        this.setState({
-            id,
-            title: `Random Card ${id}`,
-            content: 'lorem ipsum',
-            }
-        )
-      }
+
     }
   
+    handleAddClick = (listItem) =>{
 
+      const newCard= newRandomCard()
+
+      const newList=this.state.store.lists.map(list=> {
+        if (list.id=== listItem){
+          return {
+            ...list,
+            cardIds:[...list.cardIds, newCard.id]
+          };
+        }
+        return list 
+      })
+      this.setState({
+        store:{
+          lists: newList,
+          allCard:{
+            ...this.state.store.allCards,
+            [newCard.id]: newCard
+          }
+        }
+     })
+    }
+
+  
   /* console.log(customLis)  */
   render() {
-    console.log(this.state.store.allCards);
     const customLis = this.state.store.lists.map((list) => {
       const cards = list.cardIds.map((cardId) => {
         return this.state.store.allCards[cardId]
       })
-      return <List key={list.id} header={list.header} cards={cards} handler={this.state.newRandomCard}/>
+      return <List key={list.id} id={list.id} header={list.header} cards={cards} onAdd={this.handleAddClick}/>
     });
     //const customLis = this.
   return (
